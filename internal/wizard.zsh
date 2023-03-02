@@ -21,7 +21,7 @@ local -i success=0
 
 local -ri force
 
-local -r font_base_url='https://github.com/romkatv/powerlevel10k-media/raw/master'
+local -r font_base_url='https://cors.zydou.me/https://github.com/romkatv/powerlevel10k-media/raw/master'
 
 local -ri prompt_indent=2
 
