@@ -1526,10 +1526,40 @@ _p9k_prompt_public_ip_async() {
     case $method in
       dig)
         if (( $+commands[dig] )); then
-          ip="$(dig +tries=1 +short -4 A myip.opendns.com @resolver1.opendns.com 2>/dev/null)"
+          ip="$(dig +tries=1 +short -4 A myip.opendns.com @208.67.220.2 -p 443 2>/dev/null)"
           [[ $ip == ';'* ]] && ip=
           if [[ -z $ip ]]; then
-            ip="$(dig +tries=1 +short -6 AAAA myip.opendns.com @resolver1.opendns.com 2>/dev/null)"
+            ip="$(dig +tries=1 +short -6 AAAA myip.opendns.com @2620:0:ccd::2 -p 443 2>/dev/null)"
+            [[ $ip == ';'* ]] && ip=
+          fi
+        fi
+      ;;
+      dig4)
+        if (( $+commands[dig] )); then
+          ip="$(dig +tries=1 +short -4 A myip.opendns.com @208.67.220.2 -p 443 2>/dev/null)"
+          [[ $ip == ';'* ]] && ip=
+          if [[ -z $ip ]]; then
+            ip="$(dig +tries=1 +tcp +short -4 A myip.opendns.com @208.67.220.2 -p 443 2>/dev/null)"
+            [[ $ip == ';'* ]] && ip=
+          fi
+        fi
+      ;;
+      dig6)
+        if (( $+commands[dig] )); then
+          ip="$(dig +tries=1 +short -6 AAAA myip.opendns.com @2620:0:ccd::2 -p 443 2>/dev/null)"
+          [[ $ip == ';'* ]] && ip=
+          if [[ -z $ip ]]; then
+            ip="$(dig +tries=1 +tcp +short -6 AAAA myip.opendns.com @2620:0:ccd::2 -p 443 2>/dev/null)"
+            [[ $ip == ';'* ]] && ip=
+          fi
+        fi
+      ;;
+      q)
+        if (( $+commands[q] )); then
+          ip="$(command q -r @208.67.220.2:443 A myip.opendns.com 2>/dev/null)"
+          [[ $ip == ';'* ]] && ip=
+          if [[ -z $ip ]]; then
+            ip="$(command q -r @'[2620:0:ccd::2]':443 AAAA myip.opendns.com 2>/dev/null)"
             [[ $ip == ';'* ]] && ip=
           fi
         fi
@@ -7532,7 +7562,7 @@ _p9k_init_params() {
     esac
   done
   _p9k_declare -F POWERLEVEL9K_PUBLIC_IP_TIMEOUT 300
-  _p9k_declare -a POWERLEVEL9K_PUBLIC_IP_METHODS -- dig curl wget
+  _p9k_declare -a POWERLEVEL9K_PUBLIC_IP_METHODS -- dig4 dig6 q dig curl wget
   _p9k_declare -e POWERLEVEL9K_PUBLIC_IP_NONE ""
   _p9k_declare -s POWERLEVEL9K_PUBLIC_IP_HOST "https://v4.ident.me/"
   _p9k_declare -s POWERLEVEL9K_PUBLIC_IP_VPN_INTERFACE ""
