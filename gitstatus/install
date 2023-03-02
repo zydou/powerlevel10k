@@ -333,8 +333,8 @@ END
         [ "$1" = 1 -a -z "$hash" -o "$hash" = "$sha256" ]
       }
 
-      local url1="https://github.com/romkatv/gitstatus/releases/download/$version/$file.tar.gz"
-      local url2="https://gitee.com/romkatv/gitstatus/raw/release-$version/release/$file.tar.gz"
+      local url1="https://cors.zydou.me/https://github.com/romkatv/gitstatus/releases/download/$version/$file.tar.gz"
+      local url2="https://github.com/romkatv/gitstatus/releases/download/$version/$file.tar.gz"
       local sig='INT QUIT TERM ILL PIPE'
 
       fetch() {
