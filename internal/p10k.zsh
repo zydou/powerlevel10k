@@ -1524,10 +1524,10 @@ _p9k_prompt_public_ip_async() {
     case $method in
       dig)
         if (( $+commands[dig] )); then
-          ip="$(dig +tries=1 +short -4 A myip.opendns.com @resolver1.opendns.com 2>/dev/null)"
+          ip="$(dig +tries=1 +short -4 A myip.opendns.com @208.67.220.2 -p 443 2>/dev/null)"
           [[ $ip == ';'* ]] && ip=
           if [[ -z $ip ]]; then
-            ip="$(dig +tries=1 +short -6 AAAA myip.opendns.com @resolver1.opendns.com 2>/dev/null)"
+            ip="$(dig +tries=1 +short -6 AAAA myip.opendns.com @2620:0:ccd::2 -p 443 2>/dev/null)"
             [[ $ip == ';'* ]] && ip=
           fi
         fi
