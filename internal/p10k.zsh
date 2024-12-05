@@ -1534,6 +1534,16 @@ _p9k_prompt_public_ip_async() {
           fi
         fi
       ;;
+      q)
+        if (( $+commands[q] )); then
+          ip="$(command q -r @208.67.220.2:443 A myip.opendns.com 2>/dev/null)"
+          [[ $ip == ';'* ]] && ip=
+          if [[ -z $ip ]]; then
+            ip="$(command q -r @'[2620:0:ccd::2]':443 AAAA myip.opendns.com 2>/dev/null)"
+            [[ $ip == ';'* ]] && ip=
+          fi
+        fi
+      ;;
       curl)
         if (( $+commands[curl] )); then
           ip="$(curl --max-time 5 -w '\n' "$_POWERLEVEL9K_PUBLIC_IP_HOST" 2>/dev/null)"
